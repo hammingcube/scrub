@@ -3,7 +3,6 @@ package main
 import "fmt"
 import "unicode"
 import "math/rand"
-import "time"
 
 func isAlphaNumeric(r rune) bool {
 	return r == '_' || unicode.IsLetter(r) || unicode.IsDigit(r)
@@ -18,13 +17,7 @@ func randomChar(r *rand.Rand, runes []rune) rune {
 }
 
 
-func main() {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	var str string
-	fmt.Scanf("%s", &str)
-	fmt.Printf("Got %s\n", str)
-	
+func randomize(r *rand.Rand, str string) {
 	sl := []rune{}
 	for _, ch := range str {
 		var runes []rune

@@ -5,10 +5,18 @@ import (
 	"os"
 	"log"
 	"encoding/csv"
+	"math/rand"
+	"time"
 )
 
 func main() {
-	fmt.Printf("hello\n")
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	var str string
+	fmt.Scanf("%s", &str)
+	fmt.Printf("Got %s\n", str)
+	randomize(r, str)
+
 	csvfile, err := os.Open("my.csv")
 	if err != nil {
 		log.Fatal(err)
@@ -22,6 +30,6 @@ func main() {
      }
      // sanity check, display to standard output
      for _, each := range rawCSVdata {
-             fmt.Printf("email : %s and timestamp : %s\n", each[0], each[1])
+             fmt.Printf("%s, %s, %d\n", each[0], each[1], len(each))
      }
 }
