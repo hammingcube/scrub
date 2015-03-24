@@ -40,7 +40,10 @@ func main() {
      		asIs[i] = true
      	}
      }
-     fmt.Println(asIs)
+     for i := 0; i < len(asIs); i++ {
+     	fmt.Printf("%s=%v,", header[i], asIs[i])
+     }
+     fmt.Println()
      // sanity check, display to standard output
      for _, each := range rawCSVdata[1:] {
              for i, val := range each {
