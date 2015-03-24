@@ -1,6 +1,6 @@
 package main
 
-import "fmt"
+import _ "fmt"
 import "unicode"
 import "math/rand"
 
@@ -17,7 +17,7 @@ func randomChar(r *rand.Rand, runes []rune) rune {
 }
 
 
-func randomize(r *rand.Rand, str string) {
+func randomize(r *rand.Rand, str string) string {
 	sl := []rune{}
 	for _, ch := range str {
 		var runes []rune
@@ -36,10 +36,12 @@ func randomize(r *rand.Rand, str string) {
 		} else {
 			x = ch
 		}
-		fmt.Printf("%s -> %s\n", 
+		/*fmt.Printf("%s -> %s\n", 
 			string(ch),
 			string(x))
+			*/
 		sl = append(sl, x)
 	}
-	fmt.Println(string(sl))
+	//fmt.Println(string(sl))
+	return string(sl)
 }
