@@ -43,18 +43,33 @@ func main() {
      for i := 0; i < len(asIs); i++ {
      	fmt.Printf("%s=%v,", header[i], asIs[i])
      }
+     //fmt.Printf("Here-->%q", jumble('A'))
+     m := make(map[string]func(rune)rune)
      fmt.Println()
      // sanity check, display to standard output
      for _, each := range rawCSVdata[1:] {
+             k := each[0]
+             if _, ok := m[k]; !ok {
+                m[k] = NewJumbler()
+             }
              for i, val := range each {
              	var newval string
              	if asIs[i] {
              		newval = val
              	} else {
-             		newval = randomize(r, val)
+                    jumble := m[k]
+                    for _, ch := range val {
+                        newval += string(jumble(ch))
+                    }
+                    randomize(r, val)
+             		//newval = jumble(val)randomize(r, val)
              	}
              	fmt.Printf("%s->%s\t", val, newval)
              }
              fmt.Printf("\n")
+     }
+     fmt.Printf("\n%d records\n", len(rawCSVdata[1:]))
+     for k, _ := range m {
+        fmt.Println(k)
      }
 }
