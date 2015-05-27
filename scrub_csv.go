@@ -11,8 +11,6 @@ import (
 	"time"
 )
 
-
-
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	csvfile, err := os.Open(os.Args[1])
@@ -20,7 +18,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer csvfile.Close()
-    reader := csv.NewReader(csvfile)
+	reader := csv.NewReader(csvfile)
 	var b bytes.Buffer
 	writer := csv.NewWriter(bufio.NewWriter(&b))
 
@@ -59,5 +57,5 @@ func main() {
 	f, _ := os.Create("data.csv")
 	defer f.Close()
 	b.WriteTo(f)
-    fmt.Println("Output written to data.csv")
+	fmt.Println("Output written to data.csv")
 }
