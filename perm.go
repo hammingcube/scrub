@@ -1,6 +1,6 @@
 package main
 
-import "fmt"
+import _ "fmt"
 import "math/rand"
 
 func NewJumbler() func(rune) rune {
@@ -9,8 +9,8 @@ func NewJumbler() func(rune) rune {
 	const DIGITS = "0123456789"
 	arr := rand.Perm(len(LOWER))
 	arr2 := rand.Perm(len(DIGITS))
-	fmt.Println(arr)
-	fmt.Println(arr2)
+	//fmt.Println(arr)
+	//fmt.Println(arr2)
 	fn := func(ch rune) rune {
 		switch {
 		  case 'a' <= ch && ch <= 'z': return rune(LOWER[arr[ch-'a']])

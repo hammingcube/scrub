@@ -7,6 +7,8 @@ import (
 	"encoding/csv"
 	"math/rand"
 	"time"
+    "bytes"
+    "bufio"
 )
 
 func main() {
@@ -24,6 +26,9 @@ func main() {
 	}
 	defer csvfile.Close()
 	reader := csv.NewReader(csvfile)
+    var b bytes.Buffer
+    writer := csv.NewWriter(bufio.NewWriter(&b))
+
     reader.FieldsPerRecord = -1 // see the Reader struct information below
     rawCSVdata, err := reader.ReadAll()
      if err != nil {
@@ -52,6 +57,7 @@ func main() {
              if _, ok := m[k]; !ok {
                 m[k] = NewJumbler()
              }
+             newRecord := make([]string, len(each))
              for i, val := range each {
              	var newval string
              	if asIs[i] {
@@ -61,15 +67,21 @@ func main() {
                     for _, ch := range val {
                         newval += string(jumble(ch))
                     }
-                    randomize(r, val)
+                randomize(r, val)
              		//newval = jumble(val)randomize(r, val)
              	}
-             	fmt.Printf("%s->%s\t", val, newval)
+                newRecord[i] = newval
+             	//fmt.Printf("%s->%s\t", val, newval)
              }
-             fmt.Printf("\n")
+             writer.Write(newRecord)
+             //fmt.Printf("\n")
      }
-     fmt.Printf("\n%d records\n", len(rawCSVdata[1:]))
-     for k, _ := range m {
-        fmt.Println(k)
-     }
+     //fmt.Printf("\n%d records\n", len(rawCSVdata[1:]))
+     //fmt.Println()
+     //fmt.Println()
+     writer.Flush()
+     f, _ := os.Create("dat2.csv")
+     defer f.Close()
+     b.WriteTo(f)
+
 }
