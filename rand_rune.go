@@ -16,7 +16,6 @@ func randomChar(r *rand.Rand, runes []rune) rune {
 	return runes[r.Intn(len(runes))]
 }
 
-
 func randomize(r *rand.Rand, str string) string {
 	sl := []rune{}
 	for _, ch := range str {
@@ -36,10 +35,10 @@ func randomize(r *rand.Rand, str string) string {
 		} else {
 			x = ch
 		}
-		/*fmt.Printf("%s -> %s\n", 
-			string(ch),
-			string(x))
-			*/
+		/*fmt.Printf("%s -> %s\n",
+		string(ch),
+		string(x))
+		*/
 		sl = append(sl, x)
 	}
 	//fmt.Println(string(sl))
