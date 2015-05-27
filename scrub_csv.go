@@ -11,22 +11,16 @@ import (
 	"time"
 )
 
+
+
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	//r := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	/*var str string
-	fmt.Scanf("%s", &str)
-	fmt.Printf("Got %s\n", str)
-	randomize(r, str)
-	*/
-
-	csvfile, err := os.Open("Sheet1.csv")
+	csvfile, err := os.Open(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer csvfile.Close()
-	reader := csv.NewReader(csvfile)
+    reader := csv.NewReader(csvfile)
 	var b bytes.Buffer
 	writer := csv.NewWriter(bufio.NewWriter(&b))
 
@@ -37,23 +31,7 @@ func main() {
 	}
 	header := rawCSVdata[0]
 	asIs := make([]bool, len(header))
-	/*for i, field := range header {
-	  	var choice string
-	  	fmt.Printf("Keep field=%s as is?", field)
-	  	fmt.Scanf("%s", &choice)
-	  	fmt.Printf("Choice=%v\n", choice)
-	  	if choice == "y" {
-	  		asIs[i] = true
-	  	}
-	  }
-	  for i := 0; i < len(asIs); i++ {
-	  	fmt.Printf("%s=%v,", header[i], asIs[i])
-	  }
-	*/
-
-	//fmt.Printf("Here-->%q", jumble('A'))
 	m := make(map[string]func(rune) rune)
-	fmt.Println()
 	// sanity check, display to standard output
 	for _, each := range rawCSVdata[1:] {
 		k := each[0]
@@ -70,7 +48,6 @@ func main() {
 				for _, ch := range val {
 					newval += string(jumble(ch))
 				}
-				//newval = jumble(val)randomize(r, val)
 			}
 			newRecord[i] = newval
 			//fmt.Printf("%s->%s\t", val, newval)
@@ -78,12 +55,9 @@ func main() {
 		writer.Write(newRecord)
 		//fmt.Printf("\n")
 	}
-	//fmt.Printf("\n%d records\n", len(rawCSVdata[1:]))
-	//fmt.Println()
-	//fmt.Println()
 	writer.Flush()
-	f, _ := os.Create("dat2.csv")
+	f, _ := os.Create("data.csv")
 	defer f.Close()
 	b.WriteTo(f)
-
+    fmt.Println("Output written to data.csv")
 }
