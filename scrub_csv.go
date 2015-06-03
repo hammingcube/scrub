@@ -9,11 +9,24 @@ import (
 	"math/rand"
 	"os"
 	"time"
+	"strings"
 )
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	csvfile, err := os.Open(os.Args[1])
+	keepAsIs := []string{}
+	start_adding := false
+	for _, arg := range os.Args[2:] {
+		if start_adding {
+			keepAsIs = append(keepAsIs, arg)
+		}
+		if "--keep-as-is" == arg {
+			start_adding = true
+		}
+	}
+	fmt.Println(strings.Join(keepAsIs, ";"))
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,6 +42,17 @@ func main() {
 	}
 	header := rawCSVdata[0]
 	asIs := make([]bool, len(header))
+	headerMap := make(map[string]int)
+	for i, _ := range asIs {
+		headerMap[header[i]] = i
+	}
+	for _, asIsKey := range keepAsIs {
+		if index, ok := headerMap[asIsKey]; ok {
+			asIs[index] = true
+		}
+	}
+	fmt.Println(asIs)
+
 	m := make(map[string]func(rune) rune)
 	// sanity check, display to standard output
 	for _, each := range rawCSVdata[1:] {
